@@ -1,9 +1,0 @@
-{
-    "files.associations": {
-        "functional": "c",
-        "*.tcc": "c",
-        "cmath": "c",
-        "random": "c",
-        "bit": "c"
-    }
-}
