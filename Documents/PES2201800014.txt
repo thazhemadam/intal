@@ -1,0 +1,265 @@
+INTAL - Library for Integers of Arbitary Length.
+Anant Thazhemadam
+PES2201800014.
+
+Introduction
+        1. intal - First principles and preliminaries
+        An INTAL is a non negative INTeger of Arbitary Length.
+        INTALs are stored as a null-terminated string of ASCII characters, in line with the big-endian style.
+
+        2. Distinguishing features and Necessity
+        The typical integer based data types supported by C impose a limit on the number of digits that can be accomodated.
+        For simple purposes, and generic use cases, these limits may be sufficient to serve the required purposes.
+        However, this proves to be a difficulty when use cases requiring extensive computations that involve complex features and use numbers with extremely high face value.
+
+        3. Applications of INTAL
+        A library as significant as INTAL surely finds appreciation and value in many fields and for many requirements. Some of them have been mentioned below.
+		1. Cosmology, and astronomy
+		2. Statistical Mechanics, and complex statistics
+		3. High precision mathematical operations and calculations
+		4. Extensive combinatorial computations
+		5. Cryptography, and Security enforcement purposes.
+		6. Study of Number Theory
+		7. Scientific Research and Computation Methods
+		8. Deep Learning Optimizations and Algorithm Designs
+		9. More concentrated Data Mining and higher precision for Data Analysis
+		10. Theoretical Physics
+
+
+Approach and Implementation
+    The intal library developed is expected to provide a variety of functionalities. 
+    Each of these functionalities' requirements, purpose, and the overview of how they were implemented shall be discussed.
+  
+    1. intal_add:
+       	Function Prototype:
+        char* intal_add(const char* intal1, const char* intal2);
+        Purpose:
+            The intal_add function adds returns the sum of the two intals passed as parameters.
+	Overview:
+            The intal_add function emulates the manner in which the principles of addition is taught in elementary mathematics. 
+            Addition is done digit wise from the right to left (position of least place value to that of highest place value) with a carry of 1 being carried over to the next digit,
+            if the sum of two digits is greater than 10. The carry is also added to the next digits of the addends, when their sum is being calculated.
+            If the all the digit in the second addend have been added, and there still are a few digits in the first addend, 
+            then the remaining digits of the first addend are added to carry (if any) and is written down directly into the result, since the second addend has been exhausted.
+    
+
+    2. intal_compare:
+        Function Prototype:
+            int intal_compare(const char* intal1, const char* intal2);
+        Purpose:
+            The intal_compare function compares the two intals passed as parameters. 
+            If both the intals are equal, 0 is returned. 
+            If intal1 is greater than intal2, 1 is returned.
+            If intal2 is greater than intal1, -1 is returned.
+        Overview:
+            The intal_compare function compares first compares the lengths of the two intals to determine the state of inequality. 
+	    The intal with the longer length is obviously the larger intal, and the corresponding value is returned.
+            If this is not deterministic enough (both the intals are of same length), it proceeds to compare each digit in both intals, from right to left (position of highest place value).
+            If there is a mismatch, the intal corresponding to the digit of larger value is determined to be the greater intal.
+            If all the digits match, then the two intals are considered to be equal.
+    
+
+    3. intal_diff:
+        Function Prototype:char* intal_diff(const char* intal1, const char* intal2);
+        Purpose:
+            The intal_diff function returns the absolute difference between the two intals passed as parameters.
+        Overview:
+            The intal_diff function emulates the manner in which the principles of subtraction is taught in elementary mathematics.
+            The minuend is required to be greater than the subtrahend (since the absolute difference is to be calculated), so care is taken to ensure that (using intal_compare). 
+            is the subtrahend digit was greater than the minuend digit.
+            Subtraction is done digit wise from the right to left (position of least place value to that of highest place value).
+            If the digit corresponding to the subtrahend is greater than that corresponding to the minuend, 
+            then a value of 10 is added to minuend digit, and a value of 1 is reduced ("borrowed") from the digit to the left of the minuend digit.
+            
+
+    4. intal_multiply:
+
+        Function Prototype:
+            char* intal_multiply(const char* intal1, const char* intal2);
+        Purpose:
+            The intal_multiply function returns the product of the two intals passed as parameters. 
+        Overview:
+            The intal_multiply function returns the product of two intals by following the algorithm for naive multiplication; with a time complexity of O(nm).
+            Every single digit in the second intal (from the right) is multiplied with first digit in the first intal (from the right), 
+            and the product is stored in the appropriate location in the resultant intal.
+            Every single digit in the second intal (from the right) then proceeds to be multiplied with every digit (from the second digit onwards, from the right) in intal1.
+            The product is added to the previously existing value in the resultant intal, and carries are accounted for, and stored in the appropriate position in the resultant intal.
+            
+
+    5. intal_mod:
+        Function Prototype:
+            char* intal_mod(const char* intal1, const char* intal2);
+        Purpose:
+            The intal_mod function returns the mathematical modulus obtained, when the modular operation is applied to the first intal with respect to the second intal; 
+            when two intals are passed as parameters.
+        Overview:
+            The intal_mod function uses principles of long division to compute the modulus. 
+            The intal1 is considered to be the dividend, intal2 to be the divisor; and the remainder found will be the modulus value.
+            Long division is done by subtracting the divisor from the leftmost end of the dividend multiple times, until the divisor is 
+	    greater than the result obtained from the repeated subtractions. 
+            Then, the next digit from the dividend is brought down and appended to the end of the subtracted result from the previous step. 
+            The divisor is subtracted from the new number formed, until the divisor is once again greater than the result obtained from the subtractions.
+            This process is repeated for the entire length of the dividend, until it is exhausted. 
+            The final remainder formed when the entire length of the dividend has been completely exhausted, is the modulus value. This value is returned.
+
+
+    6. intal_pow:
+        Function Prototype:
+            char* intal_pow(const char* intal1, unsigned int n);
+        Purpose:
+            The intal_pow function returns the value obtained when the exponentiation of the intal is performed with the an unsigned integer as the exponent; 
+            when an intal, and an unsigned integer are passed as parameters. 
+        Overview:
+            The intal_pow function calculates the power of an intal by using an iterative approach to demonstrate the principles of the divide and conquer strategy.
+            This approach helps with memory management, and handling memory leaks better, and also helps avoid a large stack trace, thus contributing to the efficiency as well.
+
+
+    7. intal_gcd:
+        Function Prototype:
+            char* intal_gcd(const char* intal1, const char* intal2);
+        Purpose:
+            The intal_gcd function returns the gcd of two intals, using Euclid's theorem; when two intals are passed as parameters. 
+        Overview:
+            If either of the intals are 0, then the other intal is returned as the result, since GCD(Number, 0) = Number.
+            Else, Euclid's method for finding gcd is implemented in an iterative manner.
+            This helps avoiding a large stack trace, and also helps in better memory management, and handling memory leaks.
+
+
+    8. intal_fibonacci:
+        Function Prototype:
+            char* intal_fibonacci(unsigned int n);
+        Purpose:
+            The intal_fibonacci function returns the value corresponding to nth numerical value in the fibonacci series, where n is an unsigned integer that is passed as parameter. 
+        Overview:
+            The intal_fibonacci function uses the intal_add function to compute the nth fibonacci number in an iterative sequence of steps.
+            Fibonacci(0) = 1
+            Fibonacci(1) = 1
+            Fibonacci(n) = Fibonacci(n-2) + Fibonacci(n-1)
+	    The final nth fibonacci number calculated is then returned.
+
+
+
+    9. intal_factorial:
+        Function Prototype:
+            char* intal_factorial(unsigned int n);
+        Purpose:
+            The intal_factorial function returns the factorial of n, where n is an unsigned integer that is passed as parameter. 
+        Overview:
+            The intal_factorial function computes the factorial of an unsigned integer.
+            The intal begins from a value of 1, and increments its value by one using the intal_add function (until the value becomes = the unsigned integer).
+            Then, the intal (the new value) is multiplied with its previous value, and the previous value is updated to contain the product formed from the said multiplication.
+	    This process is repeated till the factorial is computed; similar to the way factorial is traditionally calculated.
+
+
+    10. intal_bincoeff:
+        Function Prototype:
+            char* intal_bincoeff(unsigned int n, unsigned int k);
+        Purpose:
+            The intal_bincoeff function returns the value corresponding to Binomial Coefficient with respect to n and k, i.e., C(n,k).
+        Overview:
+            If n = 0, "0" is returned.
+            Else, If k = 0, "1" is returned.
+            We know, that C(n,k) = C(n,n-k). Thus, if k is found to be greater than n-k, C(n,n-k) is computed instead, since it would involve lesser computation.
+            We know, that the binomial coefficient, C(n,k) depends upon its previous values C(n-1,,k) and C(n-1,k-1), i.e., C(n,k) = C(n-1,k) + C(n-1,k-1).
+            Thus, we use Dynamic Programming techniques, to calculate C(n,k); keeping in line with the constraints of not using more than O(k) intals, 
+            and not allocating the whole O(nk) DP table.
+    
+
+    11. intal_max:
+        Function Prototype:
+            int intal_max(char **arr, int n);
+        Purpose:
+            The intal_max function returns the offset largest intal in an array.
+        Overview:
+            The first element of the array is considered to be the position of the biggest element.
+            The array is traversed, as the traversal is done, each element is compared with the current maximum element (using intal_compare).
+            If the element being compared is greater than the current largest element, the position of the max element in the array is updated to 
+            the position of the element proven to be larger than what was considered to be the largest element.
+            The final position of the largest element that is determined, is returned.
+    
+
+    12. intal_min:
+        Function Prototype:
+            int intal_min(char **arr, int n);
+        Purpose:
+            The intal_max function returns the offset smallest intal in an array.
+        Overview:
+            The first element of the array is considered to be the position of the smallest element.
+            The array is traversed, as the traversal is done, each element is compared with the current minimum element (using intal_compare).
+            If the element being compared is smaller than the current smallest element, the position of the min element in the array is updated to 
+            the position of the element proven to be smaller than what was previously considered to be the smallest element.
+            The final position of the smallest element that is determined, is returned.
+        
+
+
+    13. intal_search:
+        Function Prototype:
+            int intal_search(char **arr, int n, const char* key);
+        Purpose:
+            The intal_search function returns the index at which the first occurrence of a specified key is situated in the array passed as parameters.
+        Overview:
+	    The intal_search function linearly traverses through the given array, comparing each element to the key parameter (using intal_compare). 
+	    If a match is found, then at the first occurence, the index position at which the key was found is recorded, and traversal of the array is stopped.
+	    The index position where the first occurrence was found is then returned. If no match was found, -1 is returned.
+
+        
+
+    14. intal_binsearch:
+        Function Prototype:
+            int intal_binsearch(char **arr, int n, const char* key);
+        Purpose:
+            The intal_binsearch function returns the position where the first occurrence of a key is observed; observing O(logn) complexity.
+        Overview:
+            Binary search algorithm is applied here, since binary search is a sorting algorithm of O(logn) complexity.
+            Standard binary search method is applied. The middle element is determined and compared with the key. 
+	    If the middle element is greater, then the left of the array is considered. Else, the right of the array is considered. 
+            If the element is found at a position, the position is recorded, and binary search continues, to the left of the recorded position.
+            This is to look for duplicates that could be present at an earlier occurrence in the array, than the recorded index.
+            If a duplicate is found, the same process is repeated with respect to that. 
+            This process is repeated till it is definite that there are no more duplicates that could be observed to have an earlier occurrence, than the last recorded occurrence.
+            Thus, the first occurrence of the key is determined.            
+            However, if the key is not found, -1 is returned.
+    
+
+    15. intal_sort:
+        Function Prototype:
+            void intal_sort(char **arr, int n);
+        Purpose:
+            To sort the array of intals, in nondecreasing order of magnitude; with O(nlogn) complexity.
+        Overview:
+            For sorting, quicksort has been used. Quicksort is an in place algorithm, and is very fast; of O(nlogn) complexity.
+            The partition index is calculated using the partition function. 
+            The partition function identifies the pivot location, and returns it.
+            In the process of calculating the new pivot position, the quicksort algorithm ensures that the left side of the partition 
+	     consists only of all elements smaller than the pivot element, and the right side consists of the elements larger.
+            Then, quicksort is applied to these left and right partitions/subarrays, for as many times as possible, i.e., until the array is completely sorted.
+            Thus, the array is sorted.
+
+    16. coin_row_problem:
+        Function Prototype:
+            char* coin_row_problem(char **arr, int n);
+        Purpose:
+            The coin_row_problem function returns the maximum non-adjacent value that can be chosen, given an array consisting of numbers representing denominations. 
+        Overview:
+	    If n = 0, i.e., there are no elements/coins in the array, then '0' is returned.
+	    If n = 1, i.e., there is only one element/coin in the array, then the value of that coin is returned.
+	    Let CoinRow(n) be the array of denominations.
+	    CoinRow(0) = 0
+	    CoinRow(1) = Coin[1]
+	    CoinRow(n) = MAXIMUM(CoinRow(n-1),(Coin[n] + CoinRow(n-2)))
+	    For the every ith type of coin, the with the optimal value that is obtainable is calculated. 
+	    If the new optimal value is greater than what was previously the optimal value, the optimal value is updated to the new optimal value. Else, the optimal value remains unchanged.
+
+
+
+Future work:
+    Some of the functionalities that the intal library could be extended to include are as follows.
+    1. Include support for generating hashing functions, and keys for cryptographic, since large arbitrary numbers can be used.
+    2. Include support for handling negative numbers.
+    3. INTAL could be extended to provide support for handling floating point numbers of arbitrary length, in adding to integers of arbitrary length.
+    4. Introducing methods for concurrency to making computation more efficient.
+    5. Extending support to maintaining packages and support for intal to be integrated into web applications as well.
+    6. Developing intal in a language that is a little more abstract and string friendly (like JavaScript) than C would help increase the flexibility of the library, 
+       while making it easier to enforce requirements.
+    7. A better and more concise way of handling values that amount to infinity, and complex numbers as well.
+
