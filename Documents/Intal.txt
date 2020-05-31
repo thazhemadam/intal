@@ -1,6 +1,5 @@
 INTAL - Library for Integers of Arbitary Length.
 Anant Thazhemadam
-PES2201800014.
 
 Introduction
         1. intal - First principles and preliminaries
